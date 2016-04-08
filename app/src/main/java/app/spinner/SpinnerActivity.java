@@ -28,12 +28,18 @@ public class SpinnerActivity extends AppCompatActivity {
     }
 
     private void setUpSpinner() {
-        OkSpinnerAdapter<Item, ItemSpinnerViewGroup> adapter = new OkSpinnerAdapter<Item, ItemSpinnerViewGroup>(SpinnerActivity.this, getItems()) {
-            @Override
-            public ItemSpinnerViewGroup inflateView() {
-                return new ItemSpinnerViewGroup(SpinnerActivity.this);
-            }
-        };
+        OkSpinnerAdapter<Item, ItemSpinnerViewGroup, ItemSpinnerViewGroup> adapter =
+                new OkSpinnerAdapter<Item, ItemSpinnerViewGroup, ItemSpinnerViewGroup>(SpinnerActivity.this, getItems()) {
+                    @Override
+                    public ItemSpinnerViewGroup inflateView() {
+                        return new ItemSpinnerViewGroup(SpinnerActivity.this);
+                    }
+
+                    @Override
+                    public ItemSpinnerViewGroup inflateDropDownView() {
+                        return new ItemSpinnerViewGroup(SpinnerActivity.this);
+                    }
+                };
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

@@ -6,7 +6,7 @@ Add OkAdapter dependency to project level build.gradle.
 
 ```gradle
 dependencies {
-    compile 'com.github.FuckBoilerplate:OkAdapters:0.0.2'
+    compile 'com.github.FuckBoilerplate:OkAdapters:0.0.3'
 }
 ```
 
@@ -65,11 +65,12 @@ Create a class which extends from any Android `ViewGroup` and implements [BindVi
   ```
   
 ## Spinner
-Create a class which extends from any Android `ViewGroup` and implements [OkSpinnerAdapter.Binder](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/spinner/OkSpinnerAdapter.java). This approach allows to encapsulate the binding between the data and the `view`.
+Create a class which extends from any Android `ViewGroup` and implements [OkSpinnerAdapter.Binder](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/spinner/OkSpinnerAdapter.java) and [OkSpinnerAdapter.BinderDropDown](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/spinner/OkSpinnerAdapter.java) for the same `view` or for two different `views` which implement each interface separately. This approach allows to encapsulate the binding between the data and the `view`.
  
  ```java
   
-public class YourModelViewGroup extends FrameLayout implements OkSpinnerAdapter.Binder<YourModel> {
+public class YourModelViewGroup extends FrameLayout implements OkSpinnerAdapter.Binder<YourModel>, OkSpinnerAdapter.BinderDropDown<YourModel> {
+    @Bind(R.id.tv_value) TextView tv_value;
 
     public YourModelViewGroup(Context context) {
         super(context);
@@ -77,8 +78,6 @@ public class YourModelViewGroup extends FrameLayout implements OkSpinnerAdapter.
         View view = LayoutInflater.from(getContext()).inflate(R.layout.your_model_view_group, this, true);
         ButterKnife.bind(this, view);
     }
-
-    @Bind(R.id.tv_value) TextView tv_value;
 
     @Override
     public void bindDropDownView(YourModel model, int position) {
@@ -93,15 +92,20 @@ public class YourModelViewGroup extends FrameLayout implements OkSpinnerAdapter.
   
   ```
   
-  Now instantiate [OkSpinnerAdapter](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/spinner/OkSpinnerAdapter.java) using the previous `OkSpinnerAdapter.Binder` implementation class and use it as a normal `adapter`.
+  Now instantiate [OkSpinnerAdapter](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/spinner/OkSpinnerAdapter.java) using the previous `OkSpinnerAdapter.Binder` and `OkSpinnerAdapter.BinderDropDown` implementation class and use it as a normal `adapter`.
 
  ```java 
 
     List<YourModel> items = getItems();
  
-    OkSpinnerAdapter<YourModel, YourModelViewGroup> adapter = new OkSpinnerAdapter<YourModel, YourModelViewGroup>(context, items) {
+    OkSpinnerAdapter<YourModel, YourModelViewGroup, YourModelViewGroup> adapter = new OkSpinnerAdapter<YourModel, YourModelViewGroup, YourModelViewGroup>(context, items) {
         @Override
         public YourModelViewGroup inflateView() {
+            return new YourModelViewGroup(context);
+        }
+
+        @Override
+        public YourModelViewGroup inflateDropDownView() {
             return new YourModelViewGroup(context);
         }
     };

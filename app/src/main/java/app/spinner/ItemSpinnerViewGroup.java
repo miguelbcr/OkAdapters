@@ -13,9 +13,10 @@ import library.okadapters.R;
 import library.spinner.OkSpinnerAdapter;
 
 /**
- * Created by victor on 08/04/16.
+ * Created by miguel on 08/04/16.
  */
-public class ItemSpinnerViewGroup extends FrameLayout implements OkSpinnerAdapter.Binder<Item> {
+public class ItemSpinnerViewGroup extends FrameLayout implements OkSpinnerAdapter.Binder<Item>, OkSpinnerAdapter.BinderDropDown<Item> {
+    @Bind(R.id.tv_value) TextView tv_value;
 
     public ItemSpinnerViewGroup(Context context) {
         super(context);
@@ -23,8 +24,6 @@ public class ItemSpinnerViewGroup extends FrameLayout implements OkSpinnerAdapte
         View view = LayoutInflater.from(getContext()).inflate(R.layout.item_view_group, this, true);
         ButterKnife.bind(this, view);
     }
-
-    @Bind(R.id.tv_value) TextView tv_value;
 
     @Override
     public void bindDropDownView(Item item, int position) {
