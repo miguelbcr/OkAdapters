@@ -33,7 +33,7 @@ allprojects {
 OkAdapters provides several adapters to deal with specific Android `views`.
 
 ## RecyclerView
-Create a class which extends from any Android `ViewGroup` and implements [BindView.Binder](link). This approach allows to encapsulate the binding between the data and the `view`.
+Create a class which extends from any Android `ViewGroup` and implements [BindView.Binder](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/recycler_view/BindView.java). This approach allows to encapsulate the binding between the data and the `view`.
  
  ```java
  
@@ -56,7 +56,7 @@ Create a class which extends from any Android `ViewGroup` and implements [BindVi
  
  ```
  
-  Now instantiate [OkRecyclerViewAdapter]() using the previous `BindView.Binder` implementation class and use it as a normal `adapter`.
+  Now instantiate [OkRecyclerViewAdapter](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/recycler_view/OkRecyclerViewAdapter.java) using the previous `BindView.Binder` implementation class and use it as a normal `adapter`.
 
  ```java
  
