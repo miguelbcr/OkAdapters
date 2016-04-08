@@ -1,4 +1,4 @@
-# OkAdapter
+# OkAdapters
 Wrappers for Android adapters to simply its api at a minimum.   
 
 ## Setup
@@ -6,7 +6,7 @@ Add OkAdapter dependency to project level build.gradle.
 
 ```gradle
 dependencies {
-    compile 'com.github.FuckBoilerplate:OkAdapter:0.0.1'
+    compile 'com.github.FuckBoilerplate:OkAdapters:0.0.1'
 }
 ```
 
@@ -31,9 +31,9 @@ Create a class which extends from any Android `ViewGroup` and implements [BindVi
  
  ```java
  
- public class ItemViewGroup extends FrameLayout implements BindView.Binder<YourModel> {
+ public class YourModelViewGroup extends FrameLayout implements BindView.Binder<YourModel> {
  
-     public ItemViewGroup(Context context) {
+     public YourModelViewGroup(Context context) {
          super(context);
  
          View view = LayoutInflater.from(getContext()).inflate(R.layout.your_model_view_group, this, true);
@@ -54,9 +54,9 @@ Create a class which extends from any Android `ViewGroup` and implements [BindVi
 
  ```java
  
- OkRecyclerViewAdapter<Item, ItemViewGroup> adapter = new OkRecyclerViewAdapter<Item, ItemViewGroup>() {
-     @Override protected ItemViewGroup onCreateItemView(ViewGroup parent, int viewType) {
-         return new ItemViewGroup(parent.getContext());
+ OkRecyclerViewAdapter<YourModel, YourModelViewGroup> adapter = new OkRecyclerViewAdapter<YourModel, YourModelViewGroup>() {
+     @Override protected YourModelViewGroup onCreateItemView(ViewGroup parent, int viewType) {
+         return new YourModelViewGroup(parent.getContext());
      }
  };
  
