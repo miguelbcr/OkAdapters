@@ -8,7 +8,7 @@ Add OkAdapter dependency to project level build.gradle.
 apply plugin: 'com.google.gms.google-services'
 
 dependencies {
-    compile 'com.github.FuckBoilerplate:OkAdapter:0.1.1'
+    compile 'com.github.FuckBoilerplate:OkAdapter:0.0.1'
 }
 ```
 
@@ -69,3 +69,4 @@ Create a class which extends from any Android `ViewGroup` and implements [BindVi
  recyclerView.setAdapter(adapter);
  
   ```
+[Reference]((https://github.com/FuckBoilerplate/OkAdapters/tree/master/app/src/main/java/app/recycler_view)) to a complete example.  
