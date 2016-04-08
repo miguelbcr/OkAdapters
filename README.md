@@ -65,4 +65,4 @@ Create a class which extends from any Android `ViewGroup` and implements [BindVi
  recyclerView.setAdapter(adapter);
  
   ```
-[Reference]((https://github.com/FuckBoilerplate/OkAdapters/tree/master/app/src/main/java/app/recycler_view)) to a complete example.  
+[Reference](https://github.com/FuckBoilerplate/OkAdapters/tree/master/app/src/main/java/app/recycler_view) to a complete example.  
