@@ -15,10 +15,6 @@ dependencies {
 Add jitpack repository to root level build.gradle.
 
 ```gradle
-dependencies {
-    classpath 'com.google.gms:google-services:1.5.0'
-}
-
 allprojects {
     repositories {
         //..
