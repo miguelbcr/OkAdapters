@@ -1,4 +1,4 @@
-# OkAdapter
+# OkAdapters
 Wrappers for Android adapters to simply its api at a minimum.   
 
 ## Setup
@@ -6,7 +6,7 @@ Add OkAdapter dependency to project level build.gradle.
 
 ```gradle
 dependencies {
-    compile 'com.github.FuckBoilerplate:OkAdapter:0.0.1'
+    compile 'com.github.FuckBoilerplate:OkAdapters:0.0.1'
 }
 ```
 
