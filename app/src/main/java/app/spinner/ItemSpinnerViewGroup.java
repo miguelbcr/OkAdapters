@@ -1,4 +1,4 @@
-package app.recycler_view;
+package app.spinner;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,14 +10,14 @@ import app.Item;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import library.okadapters.R;
-import library.recycler_view.BindView;
+import library.spinner.OkSpinnerAdapter;
 
 /**
  * Created by victor on 08/04/16.
  */
-public class ItemViewGroup extends FrameLayout implements BindView.Binder<Item> {
+public class ItemSpinnerViewGroup extends FrameLayout implements OkSpinnerAdapter.Binder<Item> {
 
-    public ItemViewGroup(Context context) {
+    public ItemSpinnerViewGroup(Context context) {
         super(context);
 
         View view = LayoutInflater.from(getContext()).inflate(R.layout.item_view_group, this, true);
@@ -26,7 +26,15 @@ public class ItemViewGroup extends FrameLayout implements BindView.Binder<Item> 
 
     @Bind(R.id.tv_value) TextView tv_value;
 
-    @Override public void bind(Item item, int position) {
+    @Override
+    public void bindDropDownView(Item item, int position) {
         tv_value.setText(item.getValue());
+        tv_value.setBackgroundResource(R.color.colorPrimary);
+    }
+
+    @Override
+    public void bindView(Item item, int position) {
+        tv_value.setText(item.getValue());
+        tv_value.setBackgroundResource(R.color.colorAccent);
     }
 }

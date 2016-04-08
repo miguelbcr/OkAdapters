@@ -1,4 +1,4 @@
-package fuckboilerplate.library;
+package library.okadapters;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -13,7 +13,7 @@ import java.util.List;
 import app.Item;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import fuckboilerplate.okadapters.R;
+import library.okadapters.R;
 import library.recycler_view.OkRecyclerViewAdapter;
 
 public class RecyclerViewActivity extends AppCompatActivity {

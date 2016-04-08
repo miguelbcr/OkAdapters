@@ -1,4 +1,4 @@
-package fuckboilerplate.library;
+package library.library;
 
 import org.junit.Test;
 
