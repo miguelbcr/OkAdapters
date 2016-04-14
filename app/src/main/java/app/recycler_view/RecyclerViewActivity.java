@@ -44,6 +44,13 @@ public class RecyclerViewActivity extends AppCompatActivity {
             }
         });
 
+        adapter.swipeToRemoveItemOn(rv_items).withUndoAction()
+                .notifyOnRemoved(new OkRecyclerViewAdapter.OnItemRemoved<Item>() {
+            @Override public void onRemoved(Item item) {
+                Toast.makeText(RecyclerViewActivity.this, item.getValue(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         rv_items.setAdapter(adapter);
     }
 

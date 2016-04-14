@@ -10,12 +10,12 @@ import app.Item;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import library.okadapters.R;
-import library.recycler_view.BindView;
+import library.recycler_view.OkRecyclerViewAdapter;
 
 /**
  * Created by victor on 08/04/16.
  */
-public class ItemViewGroup extends FrameLayout implements BindView.Binder<Item> {
+public class ItemViewGroup extends FrameLayout implements OkRecyclerViewAdapter.Binder<Item> {
 
     public ItemViewGroup(Context context) {
         super(context);
