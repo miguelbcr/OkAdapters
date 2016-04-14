@@ -27,11 +27,10 @@ allprojects {
 OkAdapters provides several adapters to deal with specific Android `views`.
 
 ## RecyclerView
-Create a class which extends from any Android `ViewGroup` and implements [BindView.Binder](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/recycler_view/BindView.java). This approach allows to encapsulate the binding between the data and the `view`.
+Create a class which extends from any Android `ViewGroup` and implements `OkRecyclerViewAdapter.Binder`. This approach allows to encapsulate the binding between the data and the `view`.
  
- ```java
- 
- public class YourModelViewGroup extends FrameLayout implements BindView.Binder<YourModel> {
+```java
+ public class YourModelViewGroup extends FrameLayout implements OkRecyclerViewAdapter.Binder<YourModel> {
  
      public YourModelViewGroup(Context context) {
          super(context);
@@ -48,12 +47,11 @@ Create a class which extends from any Android `ViewGroup` and implements [BindVi
      
  }
  
- ```
+```
  
-  Now instantiate [OkRecyclerViewAdapter](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/recycler_view/OkRecyclerViewAdapter.java) using the previous `BindView.Binder` implementation class and use it as a normal `adapter`.
+Now instantiate [OkRecyclerViewAdapter](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/recycler_view/OkRecyclerViewAdapter.java) using the previous `BindView.Binder` implementation class and use it as a normal `adapter`.
 
- ```java
- 
+```java
  OkRecyclerViewAdapter<YourModel, YourModelViewGroup> adapter = new OkRecyclerViewAdapter<YourModel, YourModelViewGroup>() {
      @Override protected YourModelViewGroup onCreateItemView(ViewGroup parent, int viewType) {
          return new YourModelViewGroup(parent.getContext());
@@ -62,13 +60,13 @@ Create a class which extends from any Android `ViewGroup` and implements [BindVi
  
  recyclerView.setAdapter(adapter);
  
-  ```
+```
   
+
 ## Spinner
-Create a class which extends from any Android `ViewGroup` and implements [OkSpinnerAdapter.Binder](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/spinner/OkSpinnerAdapter.java) and [OkSpinnerAdapter.BinderDropDown](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/spinner/OkSpinnerAdapter.java) for the same `view` or for two different `views` which implement each interface separately. This approach allows to encapsulate the binding between the data and the `view`.
+Create a class which extends from any Android `ViewGroup` and implements `OkSpinnerAdapter.Binder` and `OkSpinnerAdapter.BinderDropDown` for the same `view` or for two different `views` which implement each interface separately. This approach allows to encapsulate the binding between the data and the `view`.
  
- ```java
-  
+```java
 public class YourModelViewGroup extends FrameLayout implements OkSpinnerAdapter.Binder<YourModel>, OkSpinnerAdapter.BinderDropDown<YourModel> {
     @Bind(R.id.tv_value) TextView tv_value;
 
@@ -88,14 +86,12 @@ public class YourModelViewGroup extends FrameLayout implements OkSpinnerAdapter.
     public void bindView(YourModel model, int position) {
         tv_value.setText(model.getValue());
     }
-}
-  
-  ```
+}  
+```
   
   Now instantiate [OkSpinnerAdapter](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/spinner/OkSpinnerAdapter.java) using the previous `OkSpinnerAdapter.Binder` and `OkSpinnerAdapter.BinderDropDown` implementation class and use it as a normal `adapter`.
 
- ```java 
-
+```java 
     List<YourModel> items = getItems();
  
     OkSpinnerAdapter<YourModel, YourModelViewGroup, YourModelViewGroup> adapter = new OkSpinnerAdapter<YourModel, YourModelViewGroup, YourModelViewGroup>(context, items) {
@@ -112,6 +108,6 @@ public class YourModelViewGroup extends FrameLayout implements OkSpinnerAdapter.
     
     spinner.setAdapter(adapter);
  
-  ```
+```
   
 [Reference](https://github.com/FuckBoilerplate/OkAdapters/tree/master/app/src/main/java/app/recycler_view) to a complete example.  

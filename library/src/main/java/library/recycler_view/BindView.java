@@ -24,7 +24,7 @@ import android.view.View;
  * @param <T> The model data associated with the view.
  * @param <V> The view
  */
-public class BindView<T, V extends View & OkRecyclerViewAdapter.Binder<T>> extends RecyclerView.ViewHolder {
+class BindView<T, V extends View & OkRecyclerViewAdapter.Binder<T>> extends RecyclerView.ViewHolder {
     private final V view;
 
     public BindView(V itemView) {
