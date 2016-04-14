@@ -6,7 +6,7 @@ Add OkAdapter dependency to project level build.gradle.
 
 ```gradle
 dependencies {
-    compile 'com.github.FuckBoilerplate:OkAdapters:0.0.3'
+    compile 'com.github.FuckBoilerplate:OkAdapters:0.0.4'
 }
 ```
 
