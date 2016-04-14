@@ -14,15 +14,19 @@ import java.util.List;
  * @param <T> The model data associated with the view.
  * @param <V> The view
  */
-public abstract class OkSpinnerAdapter<T, V extends View & OkSpinnerAdapter.Binder<T>> extends ArrayAdapter<T> {
+public abstract class OkSpinnerAdapter<T, V extends View & OkSpinnerAdapter.Binder<T>, VD extends View & OkSpinnerAdapter.BinderDropDown<T>> extends ArrayAdapter<T> {
     protected List<T> items = new ArrayList<>();
 
     public interface Binder<T> {
-        void bindDropDownView(T item, int position);
         void bindView(T item, int position);
     }
 
+    public interface BinderDropDown<T> {
+        void bindDropDownView(T item, int position);
+    }
+
     public abstract V inflateView();
+    public abstract VD inflateDropDownView();
 
     public List<T> getItems() {
         return items;
@@ -37,7 +41,7 @@ public abstract class OkSpinnerAdapter<T, V extends View & OkSpinnerAdapter.Bind
     @Override
     public View getDropDownView(final int position, View convertView, ViewGroup parent) {
         final T item = items.get(position);
-        final V view = (convertView == null) ? inflateView() : (V) convertView;
+        final VD view = (convertView == null) ? inflateDropDownView() : (VD) convertView;
 
         convertView = view;
         view.bindDropDownView(item, position);
@@ -49,8 +53,10 @@ public abstract class OkSpinnerAdapter<T, V extends View & OkSpinnerAdapter.Bind
     public View getView(int position, View convertView, ViewGroup parent) {
         final T item = items.get(position);
         final V view = (convertView == null) ? inflateView() : (V) convertView;
+
         convertView = view;
         view.bindView(item, position);
+
         return convertView;
     }
 }
