@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/bt_recyclerview"
+        android:id="@+id/bt_recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="RecyclerView"/>
@@ -14,5 +14,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Spinner"/>
+
+    <Button
+        android:id="@+id/bt_stack_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stack view"/>
 
 </LinearLayout>

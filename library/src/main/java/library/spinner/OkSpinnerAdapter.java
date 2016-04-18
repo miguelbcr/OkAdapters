@@ -10,7 +10,7 @@ import java.util.List;
 
 
 /**
- * Adapter for Spinner
+ * OkAdapter for Spinners
  * @param <T> The model data associated with the view.
  * @param <V> The view
  */

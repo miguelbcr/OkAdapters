@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Adapter for RecyclerViews
+ * OkAdapter for RecyclerViews
  * @param <T> The model data associated with the view.
  * @param <V> The view
  */
@@ -73,7 +73,7 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
 
     public void setAll(List<T> data) {
         clear();
-        addAll(data);
+        items.addAll(data);
         notifyDataSetChanged();
     }
 

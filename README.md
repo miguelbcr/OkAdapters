@@ -49,7 +49,7 @@ Create a class which extends from any Android `ViewGroup` and implements `OkRecy
  
 ```
  
-Now instantiate [OkRecyclerViewAdapter](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/recycler_view/OkRecyclerViewAdapter.java) using the previous `BindView.Binder` implementation class and use it as a normal `adapter`.
+Now instantiate [OkRecyclerViewAdapter](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/recycler_view/OkRecyclerViewAdapter.java) using the previous `OkRecyclerViewAdapter.Binder` implementation class and use it as a normal `adapter`.
 
 ```java
  OkRecyclerViewAdapter<YourModel, YourModelViewGroup> adapter = new OkRecyclerViewAdapter<YourModel, YourModelViewGroup>() {
@@ -110,4 +110,42 @@ public class YourModelViewGroup extends FrameLayout implements OkSpinnerAdapter.
  
 ```
   
-[Reference](https://github.com/FuckBoilerplate/OkAdapters/tree/master/app/src/main/java/app/recycler_view) to a complete example.  
+
+## BaseAdapter
+Create a class which extends from any Android `ViewGroup` and implements `OkBaseAdapter.Binder`. This approach allows to encapsulate the binding between the data and the `view`.
+ 
+```java
+ public class YourModelViewGroup extends FrameLayout implements OkBaseAdapter.Binder<YourModel> {
+ 
+     public YourModelViewGroup(Context context) {
+         super(context);
+ 
+         View view = LayoutInflater.from(getContext()).inflate(R.layout.your_model_view_group, this, true);
+         ButterKnife.bind(this, view);
+     }
+  
+     @Bind(R.id.tv_value) TextView tv_value;
+
+     @Override public void bind(YourModel model, int position) {
+        tv_value.setText(model.getValue());
+     }
+     
+ }
+ 
+```
+ 
+Now instantiate [OkBaseAdapter](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/base_adapter/OkBaseAdapter.java) using the previous `OkBaseAdapter.Binder` implementation class and use it as a normal `adapter`.
+
+```java
+OkBaseAdapter<Item, ItemViewGroup> adapter = new OkBaseAdapter<YourModel, YourModelViewGroup>() {
+    @Override public YourModelViewGroup inflateView() {
+        return new YourModelViewGroup(getContext());
+    }
+};
+        
+ recyclerView.setAdapter(adapter);
+ 
+```
+  
+  
+[Reference](https://github.com/FuckBoilerplate/OkAdapters/tree/master/app/src/main/java/app/base_adapter) to a complete example.  

@@ -24,6 +24,9 @@
 
         <activity android:name="app.spinner.SpinnerActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name="app.stack_view.StackViewActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

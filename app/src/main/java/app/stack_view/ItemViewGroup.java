@@ -1,4 +1,4 @@
-package app.recycler_view;
+package app.stack_view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,14 +9,13 @@ import android.widget.TextView;
 import app.Item;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import library.base_adapter.OkBaseAdapter;
 import library.okadapters.R;
-import library.recycler_view.OkRecyclerViewAdapter;
 
-public class ItemViewGroup extends FrameLayout implements OkRecyclerViewAdapter.Binder<Item> {
+public class ItemViewGroup extends FrameLayout implements OkBaseAdapter.Binder<Item> {
 
     public ItemViewGroup(Context context) {
         super(context);
-
         View view = LayoutInflater.from(getContext()).inflate(R.layout.item_view_group, this, true);
         ButterKnife.bind(this, view);
     }
