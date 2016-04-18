@@ -143,9 +143,9 @@ OkBaseAdapter<Item, ItemViewGroup> adapter = new OkBaseAdapter<YourModel, YourMo
     }
 };
         
- recyclerView.setAdapter(adapter);
+ stackView.setAdapter(adapter);
  
 ```
   
   
-[Reference](https://github.com/FuckBoilerplate/OkAdapters/tree/master/app/src/main/java/app/base_adapter) to a complete example.  
+[Reference](https://github.com/FuckBoilerplate/OkAdapters/tree/master/app/src/main/java/app/stack_view) to a complete example.  
