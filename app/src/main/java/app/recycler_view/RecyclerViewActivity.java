@@ -39,8 +39,8 @@ public class RecyclerViewActivity extends AppCompatActivity {
         adapter.setAll(getItems());
 
         adapter.setOnItemClickListener(new OkRecyclerViewAdapter.Listener<Item, ItemViewGroup>() {
-            @Override public void onClickItem(Item item, ItemViewGroup itemViewGroup) {
-                Toast.makeText(RecyclerViewActivity.this, item.getValue(), Toast.LENGTH_SHORT).show();
+            @Override public void onClickItem(Item item, ItemViewGroup itemViewGroup, int position) {
+                Toast.makeText(RecyclerViewActivity.this, item.getValue() + " " + "  Pos: " + position, Toast.LENGTH_SHORT).show();
             }
         });
 
