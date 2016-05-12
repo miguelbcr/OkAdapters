@@ -15,6 +15,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import library.okadapters.R;
 import library.recycler_view.OkRecyclerViewAdapter;
+import library.recycler_view.SwipeRemoveAction;
 
 public class RecyclerViewActivity extends AppCompatActivity {
     @Bind(R.id.rv_items) RecyclerView rv_items;
@@ -45,11 +46,11 @@ public class RecyclerViewActivity extends AppCompatActivity {
         });
 
         adapter.swipeToRemoveItemOn(rv_items).withUndoAction()
-                .notifyOnRemoved(new OkRecyclerViewAdapter.OnItemRemoved<Item>() {
-            @Override public void onRemoved(Item item) {
-                Toast.makeText(RecyclerViewActivity.this, item.getValue(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                .notifyOnRemoved(new SwipeRemoveAction.OnItemRemoved<Item>() {
+                    @Override public void onRemoved(Item item) {
+                        Toast.makeText(RecyclerViewActivity.this, item.getValue(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         rv_items.setAdapter(adapter);
     }
