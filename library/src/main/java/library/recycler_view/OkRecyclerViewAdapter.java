@@ -40,7 +40,7 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
 
     protected abstract V onCreateItemView(ViewGroup parent, int viewType);
 
-    @Override public final void onBindViewHolder(BindView<T, V> viewHolder, int position) {
+    @Override public final void onBindViewHolder(BindView<T, V> viewHolder, final int position) {
         final T item = items.get(position);
 
         final V view = viewHolder.getView();
@@ -48,7 +48,7 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
 
         if (listener != null) view.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                listener.onClickItem(item, view);
+                listener.onClickItem(item, view, position);
             }
         });
     }
@@ -86,7 +86,7 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
     }
 
     public interface Listener<T, V> {
-        void onClickItem(T t, V v);
+        void onClickItem(T t, V v, int position);
     }
 
     public interface Binder<T> {
