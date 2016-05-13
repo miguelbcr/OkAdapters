@@ -21,7 +21,6 @@ import library.recycler_view.RxPager;
 import library.recycler_view.SwipeRemoveAction;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 
 public class RecyclerViewPagerActivity extends AppCompatActivity {
     @Bind(R.id.rv_items) RecyclerView rv_items;
@@ -93,11 +92,10 @@ public class RecyclerViewPagerActivity extends AppCompatActivity {
         }
 
         if (index > 100) {
-            return Observable.<List<Item>>error(new RuntimeException("Exception cached :D")).doOnError(new Action1<Throwable>() {
-                @Override public void call(Throwable throwable) {
-                    Toast.makeText(RecyclerViewPagerActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+            List<Item> empty = new ArrayList();
+            return Observable.just(empty)
+                    .delay(2, TimeUnit.SECONDS)
+                    .observeOn(AndroidSchedulers.mainThread());
         }
 
         return Observable.just(items)

@@ -52,12 +52,9 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
     protected abstract V onCreateItemView(ViewGroup parent, int viewType);
 
     @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ViewHolderPagerLoading) {
+        if (holder.getItemViewType() == LOADING_VIEW_TYPE) {
             if (!removeMoreListener) {
                 if (!rxPager.isStillLoading()) rxPager.lastItemReached();
-                holder.itemView.setVisibility(View.VISIBLE);
-            } else {
-                holder.itemView.setVisibility(View.GONE);
             }
             return;
         }
@@ -77,16 +74,16 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
     }
 
     @Override public int getItemViewType(int position) {
-        if (position == items.size() && rxPager != null) return LOADING_VIEW_TYPE;
+        if (position == items.size() && rxPager != null && !rxPager.isAllLoaded()) return LOADING_VIEW_TYPE;
         return ITEM_VIEW_TYPE;
     }
 
     @Override public int getItemCount() {
-        return rxPager != null ? items.size() + 1 : items.size();
+        return rxPager != null && !rxPager.isAllLoaded() ? items.size() + 1 : items.size();
     }
 
-    public void setOnItemClickListener(Listener<T, V> lister) {
-        this.listener = lister;
+    public void setOnItemClickListener(Listener<T, V> listener) {
+        this.listener = listener;
     }
 
     public void add(T item) {
@@ -150,7 +147,7 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
     public void configureGridLayoutManagerForPagination(final GridLayoutManager gridLayoutManager) {
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override public int getSpanSize(int position) {
-                if (position == getItemCount() - 1) {
+                if (position == getItemCount() - 1 && !rxPager.isAllLoaded()) {
                     return gridLayoutManager.getSpanCount();
                 } else {
                     return 1;

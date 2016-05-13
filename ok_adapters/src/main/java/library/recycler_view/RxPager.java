@@ -54,7 +54,11 @@ public class RxPager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implem
 
 
     void reset(Observable<List<T>> oItems) {
-        showItems(oItems, true);
+        showItems(oItems.doOnNext(new Action1<List<T>>() {
+            @Override public void call(List<T> items) {
+                allLoaded = items.isEmpty();
+            }
+        }), true);
     }
 
     private void showItems(Observable<List<T>> oItems, final boolean reset) {
@@ -100,5 +104,9 @@ public class RxPager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implem
 
     public interface LoaderPager<T> {
         Observable<List<T>> onNextPage(@Nullable T lastItem);
+    }
+
+    public boolean isAllLoaded() {
+        return allLoaded;
     }
 }
