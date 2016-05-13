@@ -2,7 +2,7 @@ package app.recycler_view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,11 +36,6 @@ public class RecyclerViewPagerActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView(boolean reverseLayout) {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setReverseLayout(reverseLayout);
-
-        rv_items.setLayoutManager(layoutManager);
-
         final OkRecyclerViewAdapter<Item, ItemViewGroup> adapter = new OkRecyclerViewAdapter<Item, ItemViewGroup>() {
             @Override protected ItemViewGroup onCreateItemView(ViewGroup parent, int viewType) {
                 return new ItemViewGroup(parent.getContext());
@@ -54,10 +49,10 @@ public class RecyclerViewPagerActivity extends AppCompatActivity {
         });
 
         adapter.setRxPager(R.layout.loading_pager, new RxPager.LoaderPager<Item>() {
-                    @Override public Observable<List<Item>> onNextPage(Item lastItem) {
-                        return getItems(lastItem);
-                    }
-                });
+            @Override public Observable<List<Item>> onNextPage(Item lastItem) {
+                return getItems(lastItem);
+            }
+        });
 
         findViewById(R.id.bt_reset).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
@@ -79,12 +74,17 @@ public class RecyclerViewPagerActivity extends AppCompatActivity {
                     }
                 });
 
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        layoutManager.setReverseLayout(reverseLayout);
+        adapter.configureGridLayoutManagerForPagination(layoutManager);
+
+        rv_items.setLayoutManager(layoutManager);
         rv_items.setAdapter(adapter);
     }
 
     private Observable<List<Item>> getItems(Item lastItem) {
         int index = lastItem != null ? lastItem.getId() + 1 : 0;
-        int max = index + 30;
+        int max = index + 31;
 
         List<Item> items = new ArrayList();
 

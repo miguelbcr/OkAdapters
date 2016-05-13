@@ -17,6 +17,7 @@
 package library.recycler_view;
 
 import android.support.annotation.LayoutRes;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,5 +145,17 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
 
     public interface LastItemListener {
         void lastItemReached();
+    }
+
+    public void configureGridLayoutManagerForPagination(final GridLayoutManager gridLayoutManager) {
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override public int getSpanSize(int position) {
+                if (position == getItemCount() - 1) {
+                    return gridLayoutManager.getSpanCount();
+                } else {
+                    return 1;
+                }
+            }
+        });
     }
 }
