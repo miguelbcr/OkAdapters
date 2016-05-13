@@ -44,7 +44,7 @@ public class SpinnerActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(SpinnerActivity.this, getItems().get(position).getValue(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SpinnerActivity.this, getItems().get(position).toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -60,7 +60,7 @@ public class SpinnerActivity extends AppCompatActivity {
         List<Item> items = new ArrayList();
 
         for (int i = 0; i < 50; i++) {
-            items.add(new Item("Item: " + i));
+            items.add(new Item(i));
         }
 
         return items;

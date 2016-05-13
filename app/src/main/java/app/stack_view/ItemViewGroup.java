@@ -22,6 +22,6 @@ public class ItemViewGroup extends FrameLayout implements OkBaseAdapter.Binder<I
 
     @Bind(R.id.tv_value) TextView tv_value;
     @Override public void bind(Item item, int position) {
-        tv_value.setText(item.getValue());
+        tv_value.setText(item.toString());
     }
 }

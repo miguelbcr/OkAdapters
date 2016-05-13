@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/OkAdapters.iml" filepath="$PROJECT_DIR$/OkAdapters.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/ok_adapters/library.iml" filepath="$PROJECT_DIR$/ok_adapters/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ok_adapters/ok_adapters.iml" filepath="$PROJECT_DIR$/ok_adapters/ok_adapters.iml" />
     </modules>
   </component>
 </project>

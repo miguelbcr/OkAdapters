@@ -41,14 +41,14 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
         adapter.setOnItemClickListener(new OkRecyclerViewAdapter.Listener<Item, ItemViewGroup>() {
             @Override public void onClickItem(Item item, ItemViewGroup itemViewGroup, int position) {
-                Toast.makeText(RecyclerViewActivity.this, item.getValue() + " " + "  Pos: " + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecyclerViewActivity.this, item.toString() + " " + "  Pos: " + position, Toast.LENGTH_SHORT).show();
             }
         });
 
         adapter.swipeToRemoveItemOn(rv_items).withUndoAction()
                 .notifyOnRemoved(new SwipeRemoveAction.OnItemRemoved<Item>() {
                     @Override public void onRemoved(Item item) {
-                        Toast.makeText(RecyclerViewActivity.this, item.getValue(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RecyclerViewActivity.this, item.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -59,7 +59,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
         List<Item> items = new ArrayList();
 
         for (int i = 0; i < 50; i++) {
-            items.add(new Item("Item: " + i));
+            items.add(new Item(i));
         }
 
         return items;

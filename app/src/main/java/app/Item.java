@@ -1,13 +1,17 @@
 package app;
 
 public class Item {
-    private final String value;
+    private final int id;
 
-    public Item(String value) {
-        this.value = value;
+    public Item(int id) {
+        this.id = id;
     }
 
-    public String getValue() {
-        return value;
+    public int getId() {
+        return id;
+    }
+
+    @Override public String toString() {
+        return "id : " + id + " Created at -> " + System.currentTimeMillis();
     }
 }

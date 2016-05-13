@@ -10,6 +10,12 @@
         android:text="RecyclerView"/>
 
     <Button
+        android:id="@+id/bt_recycler_view_pager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RecyclerViewPager"/>
+
+    <Button
         android:id="@+id/bt_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

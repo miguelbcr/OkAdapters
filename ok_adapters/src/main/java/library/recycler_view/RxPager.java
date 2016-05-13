@@ -16,84 +16,89 @@
 
 package library.recycler_view;
 
+import android.os.Handler;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.view.View;
 
-public class RxPager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> {
-/*    private final RecyclerView recyclerView;
+import java.util.List;
+
+import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func1;
+
+public class RxPager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implements OkRecyclerViewAdapter.LastItemListener {
+    @LayoutRes private final int idResourceLoading;
     private final OkRecyclerViewAdapter<T, V> adapter;
-    private LoaderPager<T> loaderPager;
+    private final LoaderPager<T> loaderPager;
     private boolean allLoaded;
+    private boolean stillLoading;
 
-    public RxPager(RecyclerView recyclerView, OkRecyclerViewAdapter<T, V> adapter) {
-        this.recyclerView = recyclerView;
-        this.adapter = adapter;
-        this.adapter.clear();
-    }
-
-    public void setLoaderPager(LoaderPager<T> loaderPager) {
+    public RxPager(@LayoutRes int idResourceLoading, LoaderPager<T> loaderPager, OkRecyclerViewAdapter<T, V> adapter) {
+        this.idResourceLoading = idResourceLoading;
         this.loaderPager = loaderPager;
-
-        setupMoreListenerRecyclerView();
-        showItems(loaderPager.onNextPage(null));
+        this.adapter = adapter;
+        showItems(loaderPager.onNextPage(null), false);
     }
 
-    public void setResetPager(ResetPager<T> resetPager) {
-        //recyclerView.setRefreshListener(() -> resetItems(resetPager.onReset()));
+    public int getIdResourceLoading() {
+        return idResourceLoading;
     }
 
-    private void resetItems(Observable<List<T>> oItems) {
-        oItems.doOnNext(new Action1<List<T>>() {
-            @Override public void call(List<T> items) {
-                setupMoreListenerRecyclerView();
-                adapter.clear();
-                adapter.notifyDataSetChanged();
-            }
-        });
+    @Override public void lastItemReached() {
+        try {
+            T item = adapter.getAll().get(adapter.getItemCount() - 2);
+            nextPage(item);
+        } catch (Exception i){}
     }
 
-    private void showItems(Observable<List<T>> oItems) {
+
+    void reset(Observable<List<T>> oItems) {
+        showItems(oItems, true);
+    }
+
+    private void showItems(Observable<List<T>> oItems, final boolean reset) {
+        stillLoading = true;
         oItems.subscribe(new Action1<List<T>>() {
-            @Override public void call(List<T> items) {
-                if (recyclerView.getAdapter() == null) recyclerView.setAdapter(adapter);
-
-                adapter.addAll(items);
+            @Override public void call(final List<T> items) {
+                new Handler().post(new Runnable() {
+                    @Override public void run() {
+                        stillLoading = false;
+                        if (reset) adapter.setAll(items);
+                        else adapter.addAll(items);
+                    }
+                });
+            }
+        }, new Action1<Throwable>() {
+            @Override public void call(Throwable throwable) {
+                stillLoading = false;
+                throwable.printStackTrace();
             }
         });
     }
 
     private void nextPage(T item) {
         if (allLoaded) {
-            removeMoreListener();
+            adapter.removeMoreListener();
             return;
         }
 
         Observable<List<T>> oItems = loaderPager.onNextPage(item)
-                .map(items -> {
-                    allLoaded = items.isEmpty();
-                    return items;
+                .map(new Func1<List<T>, List<T>>() {
+                    @Override public List<T> call(List<T> items) {
+                        allLoaded = items.isEmpty();
+                        return items;
+                    }
                 });
 
-        showItems(oItems);
+        showItems(oItems, false);
     }
 
-    private void removeMoreListener() {
-        recyclerView.getMoreProgressView().setVisibility(View.GONE);
-        recyclerView.removeMoreListener();
-    }
-
-    private void setupMoreListenerRecyclerView() {
-        recyclerView.setupMoreListener((overallItemsCount, itemsBeforeMore, maxLastVisiblePosition) -> {
-            T user = adapter.getAll().get(adapter.getItemCount() - 1);
-            nextPage(user);
-        }, 5);
+    public boolean isStillLoading() {
+        return stillLoading;
     }
 
     public interface LoaderPager<T> {
-        Observable<List<T>> onNextPage(T t);
+        Observable<List<T>> onNextPage(@Nullable T lastItem);
     }
-
-    public interface ResetPager<T> {
-        Observable<List<T>> onReset();
-    }*/
-
 }

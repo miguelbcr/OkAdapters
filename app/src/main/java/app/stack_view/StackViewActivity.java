@@ -40,7 +40,7 @@ public class StackViewActivity extends AppCompatActivity {
         List<Item> items = new ArrayList();
 
         for (int i = 0; i < 5; i++) {
-            items.add(new Item("Item: " + i));
+            items.add(new Item(i));
         }
 
         return items;

@@ -6,7 +6,7 @@ Add OkAdapter dependency to project level build.gradle.
 
 ```gradle
 dependencies {
-    compile 'com.github.FuckBoilerplate:OkAdapters:0.0.6'
+    compile 'com.github.FuckBoilerplate:OkAdapters:0.0.7'
 }
 ```
 
@@ -62,7 +62,24 @@ Now instantiate [OkRecyclerViewAdapter](https://github.com/FuckBoilerplate/OkAda
  
 ```
   
+### RecyclerView pagination.
 
+OkRecyclerViewAdapter supports a reactive pagination. In order to use this feature, you need to call `setRxPager` from the adapter, supplying a valid reference to the layout which will be used as the loading row when requesting successive items. As long as an implementation of the interface `LoaderPager`, which exposes the last visible item and request an instance of the loader `observable` for retrieving the data. 
+
+```java
+adapter.setRxPager(R.layout.loading_pager, new RxPager.LoaderPager<Item>() {
+    @Override public Observable<List<Item>> onNextPage(Item lastItem) {
+        return getItemsObservable(lastItem);
+    }
+});
+```
+
+It is also possible to call `resetPager`, supplying an observable as the data source, in order to restart the pagination using another loader source that the one used for the pagination.
+  
+```java
+adapter.resetPager(getFreshItemsObservable(null));
+```
+  
 ## Spinner
 Create a class which extends from any Android `ViewGroup` and implements `OkSpinnerAdapter.Binder` and `OkSpinnerAdapter.BinderDropDown` for the same `view` or for two different `views` which implement each interface separately. This approach allows to encapsulate the binding between the data and the `view`.
  

@@ -41,6 +41,11 @@ public class SwipeRemoveAction<T> {
                 return false;
             }
 
+            @Override public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                if (viewHolder instanceof OkRecyclerViewAdapter.ViewHolderPagerLoading) return 0;
+                return super.getSwipeDirs(recyclerView, viewHolder);
+            }
+
             @Override public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 final int position = viewHolder.getAdapterPosition();
                 T itemRemoved = items.get(position);

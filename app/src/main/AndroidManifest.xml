@@ -22,6 +22,9 @@
         <activity android:name="app.recycler_view.RecyclerViewActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity android:name="app.recycler_view.RecyclerViewPagerActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity android:name="app.spinner.SpinnerActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 

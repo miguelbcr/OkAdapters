@@ -16,29 +16,53 @@
 
 package library.recycler_view;
 
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
+
 /**
  * OkAdapter for RecyclerViews
  * @param <T> The model data associated with the view.
  * @param <V> The view
  */
-public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAdapter.Binder<T>> extends RecyclerView.Adapter<BindView<T, V>> {
+public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAdapter.Binder<T>> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     protected List<T> items = new ArrayList<>();
     protected Listener<T, V> listener;
+    private RxPager<T, V> rxPager;
+    private final static int LOADING_VIEW_TYPE = 1, ITEM_VIEW_TYPE = 2;
+    boolean removeMoreListener;
 
-    @Override public final BindView<T, V> onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == LOADING_VIEW_TYPE) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(rxPager.getIdResourceLoading(), parent, false);
+            return new ViewHolderPagerLoading(view);
+        }
+
         return new BindView<>(onCreateItemView(parent, viewType));
     }
 
     protected abstract V onCreateItemView(ViewGroup parent, int viewType);
 
-    @Override public final void onBindViewHolder(BindView<T, V> viewHolder, final int position) {
+    @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ViewHolderPagerLoading) {
+            if (!removeMoreListener) {
+                if (!rxPager.isStillLoading()) rxPager.lastItemReached();
+                holder.itemView.setVisibility(View.VISIBLE);
+            } else {
+                holder.itemView.setVisibility(View.GONE);
+            }
+            return;
+        }
+
+        final BindView<T, V> viewHolder = (BindView<T, V>) holder;
+
         final T item = items.get(position);
 
         final V view = viewHolder.getView();
@@ -46,13 +70,18 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
 
         if (listener != null) view.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                listener.onClickItem(item, view, position);
+                listener.onClickItem(item, view, viewHolder.getAdapterPosition());
             }
         });
     }
 
+    @Override public int getItemViewType(int position) {
+        if (position == items.size() && rxPager != null) return LOADING_VIEW_TYPE;
+        return ITEM_VIEW_TYPE;
+    }
+
     @Override public int getItemCount() {
-        return items.size();
+        return rxPager != null ? items.size() + 1 : items.size();
     }
 
     public void setOnItemClickListener(Listener<T, V> lister) {
@@ -93,5 +122,27 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
 
     public SwipeRemoveAction<T> swipeToRemoveItemOn(final RecyclerView recyclerView) {
         return new SwipeRemoveAction<T>(recyclerView, items, this);
+    }
+
+    static class ViewHolderPagerLoading extends RecyclerView.ViewHolder {
+        public ViewHolderPagerLoading(View itemView) {
+            super(itemView);
+        }
+    }
+
+    void removeMoreListener() {
+        removeMoreListener = true;
+    }
+
+    public void setRxPager(@LayoutRes int idResourceLoading, RxPager.LoaderPager<T> loaderPager) {
+        this.rxPager = new RxPager(idResourceLoading, loaderPager, this);
+    }
+
+    public void resetPager(Observable<List<T>> oItems) {
+        if (rxPager != null) rxPager.reset(oItems);
+    }
+
+    public interface LastItemListener {
+        void lastItemReached();
     }
 }

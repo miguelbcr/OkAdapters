@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import app.recycler_view.RecyclerViewActivity;
+import app.recycler_view.RecyclerViewPagerActivity;
 import app.spinner.SpinnerActivity;
 import app.stack_view.StackViewActivity;
 import butterknife.ButterKnife;
@@ -22,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.bt_recycler_view) void bt_recycler_view() {
         startActivity(new Intent(MainActivity.this, RecyclerViewActivity.class));
+    }
+
+    @OnClick(R.id.bt_recycler_view_pager) void bt_recycler_view_pager() {
+        startActivity(new Intent(MainActivity.this, RecyclerViewPagerActivity.class));
     }
 
     @OnClick(R.id.bt_spinner) void bt_spinner() {
