@@ -64,11 +64,11 @@ Now instantiate [OkRecyclerViewAdapter](https://github.com/FuckBoilerplate/OkAda
   
 ### RecyclerView pagination.
 
-OkRecyclerViewAdapter supports a reactive pagination. In order to use this feature, you need to call `setRxPager` from the adapter, supplying a valid reference to the layout which will be used as the loading row when requesting successive items. As long as an implementation of the interface `LoaderPager`, which exposes the last visible item and request an instance of the loader `observable` for retrieving the data. 
+`OkRecyclerViewAdapter` supports a reactive pagination. In order to use this feature, you need to call `setRxPager` from the adapter, supplying a valid reference to the layout which will be used as the loading row when requesting successive items. As long as an implementation of the interface `LoaderPager`, which exposes the last visible item and request an instance of the loader `observable` for retrieving the data. 
 
 ```java
-adapter.setRxPager(R.layout.loading_pager, new RxPager.LoaderPager<Item>() {
-    @Override public Observable<List<Item>> onNextPage(Item lastItem) {
+adapter.setRxPager(R.layout.loading_pager, new RxPager.LoaderPager<YourModel>() {
+    @Override public Observable<List<YourModel>> onNextPage(YourModel lastItem) {
         return getItemsObservable(lastItem);
     }
 });
