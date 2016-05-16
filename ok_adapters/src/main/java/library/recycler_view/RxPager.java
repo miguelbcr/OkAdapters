@@ -24,6 +24,7 @@ import android.view.View;
 import java.util.List;
 
 import rx.Observable;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
@@ -63,7 +64,11 @@ public class RxPager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implem
 
     private void showItems(Observable<List<T>> oItems, final boolean reset) {
         stillLoading = true;
-        oItems.subscribe(new Action1<List<T>>() {
+        oItems.doOnCompleted(new Action0() {
+            @Override public void call() {
+                stillLoading = false;
+            }
+        }).subscribe(new Action1<List<T>>() {
             @Override public void call(final List<T> items) {
                 new Handler().post(new Runnable() {
                     @Override public void run() {

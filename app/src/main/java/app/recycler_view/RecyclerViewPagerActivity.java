@@ -1,12 +1,15 @@
 package app.recycler_view;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.trello.rxlifecycle.RxLifecycle;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +25,7 @@ import library.recycler_view.SwipeRemoveAction;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class RecyclerViewPagerActivity extends AppCompatActivity {
+public class RecyclerViewPagerActivity extends RxAppCompatActivity {
     @Bind(R.id.rv_items) RecyclerView rv_items;
     private boolean isReversed;
 
@@ -43,13 +46,15 @@ public class RecyclerViewPagerActivity extends AppCompatActivity {
 
         adapter.setOnItemClickListener(new OkRecyclerViewAdapter.Listener<Item, ItemViewGroup>() {
             @Override public void onClickItem(Item item, ItemViewGroup itemViewGroup, int position) {
+                startActivity(new Intent(RecyclerViewPagerActivity.this, DummyActivity.class));
                 Toast.makeText(RecyclerViewPagerActivity.this, item.toString() + " " + "  Pos: " + position, Toast.LENGTH_SHORT).show();
             }
         });
 
         adapter.setRxPager(R.layout.loading_pager, new RxPager.LoaderPager<Item>() {
             @Override public Observable<List<Item>> onNextPage(Item lastItem) {
-                return getItems(lastItem);
+                return getItems(lastItem)
+                        .compose(RxLifecycle.<List<Item>>bindActivity(lifecycle()));
             }
         });
 
@@ -94,12 +99,12 @@ public class RecyclerViewPagerActivity extends AppCompatActivity {
         if (index > 100) {
             List<Item> empty = new ArrayList();
             return Observable.just(empty)
-                    .delay(2, TimeUnit.SECONDS)
+                    .delay(3, TimeUnit.SECONDS)
                     .observeOn(AndroidSchedulers.mainThread());
         }
 
         return Observable.just(items)
-                .delay(2, TimeUnit.SECONDS)
+                .delay(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

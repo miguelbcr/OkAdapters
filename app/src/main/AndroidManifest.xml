@@ -30,6 +30,9 @@
 
         <activity android:name="app.stack_view.StackViewActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name="app.recycler_view.DummyActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
