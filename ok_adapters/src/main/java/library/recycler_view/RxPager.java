@@ -73,6 +73,7 @@ public class RxPager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implem
                 new Handler().post(new Runnable() {
                     @Override public void run() {
                         stillLoading = false;
+                        allLoaded = items.isEmpty();
                         if (reset) adapter.setAll(items);
                         else adapter.addAll(items);
                     }
