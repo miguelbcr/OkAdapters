@@ -22,7 +22,7 @@ public class ItemViewGroup extends FrameLayout implements OkRecyclerViewAdapter.
     }
 
     @Bind(R.id.tv_value) TextView tv_value;
-    @Override public void bind(Item item, int position) {
+    @Override public void bind(Item item, int position, int total) {
         tv_value.setText(item.toString());
     }
 }

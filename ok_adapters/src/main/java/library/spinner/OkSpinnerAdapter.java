@@ -18,11 +18,11 @@ public abstract class OkSpinnerAdapter<T, V extends View & OkSpinnerAdapter.Bind
     protected List<T> items = new ArrayList<>();
 
     public interface Binder<T> {
-        void bindView(T item, int position);
+        void bindView(T item, int position, int total);
     }
 
     public interface BinderDropDown<T> {
-        void bindDropDownView(T item, int position);
+        void bindDropDownView(T item, int position, int total);
     }
 
     public abstract V inflateView();
@@ -44,7 +44,7 @@ public abstract class OkSpinnerAdapter<T, V extends View & OkSpinnerAdapter.Bind
         final VD view = (convertView == null) ? inflateDropDownView() : (VD) convertView;
 
         convertView = view;
-        view.bindDropDownView(item, position);
+        view.bindDropDownView(item, position, getCount());
 
         return convertView;
     }
@@ -55,7 +55,7 @@ public abstract class OkSpinnerAdapter<T, V extends View & OkSpinnerAdapter.Bind
         final V view = (convertView == null) ? inflateView() : (V) convertView;
 
         convertView = view;
-        view.bindView(item, position);
+        view.bindView(item, position, getCount());
 
         return convertView;
     }

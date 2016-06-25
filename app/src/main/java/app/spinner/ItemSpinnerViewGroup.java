@@ -23,13 +23,13 @@ public class ItemSpinnerViewGroup extends FrameLayout implements OkSpinnerAdapte
     }
 
     @Override
-    public void bindDropDownView(Item item, int position) {
+    public void bindDropDownView(Item item, int position, int total) {
         tv_value.setText(item.toString());
         tv_value.setBackgroundResource(R.color.colorPrimary);
     }
 
     @Override
-    public void bindView(Item item, int position) {
+    public void bindView(Item item, int position, int total) {
         tv_value.setText(item.toString());
         tv_value.setBackgroundResource(R.color.colorAccent);
     }
