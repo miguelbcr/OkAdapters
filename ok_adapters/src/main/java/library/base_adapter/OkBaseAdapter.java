@@ -99,7 +99,7 @@ public abstract class OkBaseAdapter<T, V extends View & OkBaseAdapter.Binder<T>>
     }
 
     public interface Binder<T> {
-        void bind(T item, int position, int total);
+        void bind(T item, int position, int count);
     }
 
 }

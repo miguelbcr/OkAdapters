@@ -18,11 +18,11 @@ public abstract class OkSpinnerAdapter<T, V extends View & OkSpinnerAdapter.Bind
     protected List<T> items = new ArrayList<>();
 
     public interface Binder<T> {
-        void bindView(T item, int position, int total);
+        void bindView(T item, int position, int count);
     }
 
     public interface BinderDropDown<T> {
-        void bindDropDownView(T item, int position, int total);
+        void bindDropDownView(T item, int position, int count);
     }
 
     public abstract V inflateView();

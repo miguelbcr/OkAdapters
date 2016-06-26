@@ -115,7 +115,7 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
     }
 
     public interface Binder<T> {
-        void bind(T data, int position, int total);
+        void bind(T data, int position, int count);
     }
 
     public SwipeRemoveAction<T> swipeToRemoveItemOn(final RecyclerView recyclerView) {
