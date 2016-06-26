@@ -64,7 +64,7 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
         final T item = items.get(position);
 
         final V view = viewHolder.getView();
-        view.bind(item, position);
+        view.bind(item, position, getItemCount());
 
         if (listener != null) view.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
@@ -115,7 +115,7 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
     }
 
     public interface Binder<T> {
-        void bind(T data, int position);
+        void bind(T data, int position, int count);
     }
 
     public SwipeRemoveAction<T> swipeToRemoveItemOn(final RecyclerView recyclerView) {

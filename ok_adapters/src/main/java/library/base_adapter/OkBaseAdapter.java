@@ -57,7 +57,7 @@ public abstract class OkBaseAdapter<T, V extends View & OkBaseAdapter.Binder<T>>
             holder = (ViewHolder) view.getTag();
         }
 
-        holder.getView().bind(item, position);
+        holder.getView().bind(item, position, getCount());
 
         return view;
     }
@@ -99,7 +99,7 @@ public abstract class OkBaseAdapter<T, V extends View & OkBaseAdapter.Binder<T>>
     }
 
     public interface Binder<T> {
-        void bind(T item, int position);
+        void bind(T item, int position, int count);
     }
 
 }
