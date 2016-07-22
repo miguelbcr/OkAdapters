@@ -35,11 +35,19 @@ public class RxPager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implem
     private boolean allLoaded;
     private boolean stillLoading;
 
-    public RxPager(@LayoutRes int idResourceLoading, LoaderPager<T> loaderPager, OkRecyclerViewAdapter<T, V> adapter) {
+    public RxPager(@LayoutRes int idResourceLoading, List<T> initialLoad, LoaderPager<T> loaderPager,
+        OkRecyclerViewAdapter<T, V> adapter) {
         this.idResourceLoading = idResourceLoading;
         this.loaderPager = loaderPager;
         this.adapter = adapter;
-        showItems(loaderPager.onNextPage(null), false);
+
+        if (initialLoad.isEmpty()) {
+            showItems(loaderPager.onNextPage(null), false);
+        } else {
+            this.adapter.addAll(initialLoad);
+            T lastItem = initialLoad.get(initialLoad.size()-1);
+            showItems(loaderPager.onNextPage(lastItem), false);
+        }
     }
 
     public int getIdResourceLoading() {

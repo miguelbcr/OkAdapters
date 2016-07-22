@@ -132,8 +132,8 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
         removeMoreListener = true;
     }
 
-    public void setRxPager(@LayoutRes int idResourceLoading, RxPager.LoaderPager<T> loaderPager) {
-        this.rxPager = new RxPager(idResourceLoading, loaderPager, this);
+    public void setRxPager(@LayoutRes int idResourceLoading, List<T> initialLoad, RxPager.LoaderPager<T> loaderPager) {
+        this.rxPager = new RxPager(idResourceLoading, initialLoad, loaderPager, this);
     }
 
     public void resetPager(Observable<List<T>> oItems) {

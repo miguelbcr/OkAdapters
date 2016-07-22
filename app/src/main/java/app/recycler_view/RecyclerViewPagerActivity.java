@@ -24,10 +24,13 @@ import library.recycler_view.RxPager;
 import library.recycler_view.SwipeRemoveAction;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 public class RecyclerViewPagerActivity extends RxAppCompatActivity {
     @Bind(R.id.rv_items) RecyclerView rv_items;
     private boolean isReversed;
+    private static List<Item> cachedItems = new ArrayList<>();
+    private static int position;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,12 @@ public class RecyclerViewPagerActivity extends RxAppCompatActivity {
 
         ButterKnife.bind(this);
         setUpRecyclerView(false);
+    }
+
+    @Override public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        position = ((GridLayoutManager)rv_items
+            .getLayoutManager()).findFirstCompletelyVisibleItemPosition();
     }
 
     private void setUpRecyclerView(boolean reverseLayout) {
@@ -51,10 +60,15 @@ public class RecyclerViewPagerActivity extends RxAppCompatActivity {
             }
         });
 
-        adapter.setRxPager(R.layout.loading_pager, new RxPager.LoaderPager<Item>() {
+        adapter.setRxPager(R.layout.loading_pager, cachedItems, new RxPager.LoaderPager<Item>() {
             @Override public Observable<List<Item>> onNextPage(Item lastItem) {
                 return getItems(lastItem)
-                        .compose(RxLifecycle.<List<Item>>bindActivity(lifecycle()));
+                    .doOnNext(new Action1<List<Item>>() {
+                        @Override public void call(List<Item> items) {
+                            cachedItems.addAll(items);
+                        }
+                    })
+                    .compose(RxLifecycle.<List<Item>>bindActivity(lifecycle()));
             }
         });
 
@@ -84,6 +98,7 @@ public class RecyclerViewPagerActivity extends RxAppCompatActivity {
 
         rv_items.setLayoutManager(layoutManager);
         rv_items.setAdapter(adapter);
+        layoutManager.scrollToPosition(position);
     }
 
     private Observable<List<Item>> getItems(Item lastItem) {
@@ -107,5 +122,4 @@ public class RecyclerViewPagerActivity extends RxAppCompatActivity {
                 .delay(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread());
     }
-
 }
