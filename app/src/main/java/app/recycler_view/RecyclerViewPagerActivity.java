@@ -2,6 +2,7 @@ package app.recycler_view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,14 +21,17 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import library.okadapters.R;
 import library.recycler_view.OkRecyclerViewAdapter;
-import library.recycler_view.RxPager;
+import library.recycler_view.Pager;
 import library.recycler_view.SwipeRemoveAction;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 public class RecyclerViewPagerActivity extends RxAppCompatActivity {
     @Bind(R.id.rv_items) RecyclerView rv_items;
     private boolean isReversed;
+    private static List<Item> cachedItems = new ArrayList<>();
+    private static int position;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,12 @@ public class RecyclerViewPagerActivity extends RxAppCompatActivity {
 
         ButterKnife.bind(this);
         setUpRecyclerView(false);
+    }
+
+    @Override public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        position = ((GridLayoutManager)rv_items
+            .getLayoutManager()).findFirstCompletelyVisibleItemPosition();
     }
 
     private void setUpRecyclerView(boolean reverseLayout) {
@@ -51,16 +61,38 @@ public class RecyclerViewPagerActivity extends RxAppCompatActivity {
             }
         });
 
-        adapter.setRxPager(R.layout.loading_pager, new RxPager.LoaderPager<Item>() {
-            @Override public Observable<List<Item>> onNextPage(Item lastItem) {
-                return getItems(lastItem)
-                        .compose(RxLifecycle.<List<Item>>bindActivity(lifecycle()));
+        adapter.setPager(R.layout.loading_pager, cachedItems, new Pager.LoaderPager<Item>() {
+            @Override public Pager.Call<Item> onNextPage(@Nullable final Item lastItem) {
+                return new Pager.Call<Item>() {
+                    @Override public void execute(final Pager.Callback<Item> callback) {
+                        getItems(lastItem)
+                            .doOnNext(new Action1<List<Item>>() {
+                                @Override public void call(List<Item> items) {
+                                    cachedItems.addAll(items);
+                                }
+                            })
+                            .compose(RxLifecycle.<List<Item>>bindActivity(lifecycle()))
+                            .subscribe(new Action1<List<Item>>() {
+                                @Override public void call(List<Item> items) {
+                                    callback.supply(items);
+                                }
+                            });
+                    }
+                };
             }
         });
 
         findViewById(R.id.bt_reset).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                adapter.resetPager(getItems(null));
+                adapter.resetPager(new Pager.Call<Item>() {
+                    @Override public void execute(final Pager.Callback<Item> callback) {
+                        getItems(null).subscribe(new Action1<List<Item>>() {
+                            @Override public void call(List<Item> items) {
+                                callback.supply(items);
+                            }
+                        });
+                    }
+                });
             }
         });
 
@@ -84,6 +116,7 @@ public class RecyclerViewPagerActivity extends RxAppCompatActivity {
 
         rv_items.setLayoutManager(layoutManager);
         rv_items.setAdapter(adapter);
+        layoutManager.scrollToPosition(position);
     }
 
     private Observable<List<Item>> getItems(Item lastItem) {
@@ -107,5 +140,4 @@ public class RecyclerViewPagerActivity extends RxAppCompatActivity {
                 .delay(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread());
     }
-
 }
