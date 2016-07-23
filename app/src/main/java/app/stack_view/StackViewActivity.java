@@ -10,8 +10,8 @@ import java.util.List;
 import app.Item;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import library.base_adapter.OkBaseAdapter;
-import library.okadapters.R;
+import miguelbcr.ui.base_adapter.OkBaseAdapter;
+import miguelbcr.okadapters.R;
 
 public class StackViewActivity extends AppCompatActivity {
     @Bind(R.id.sv_values) StackView sv_values;

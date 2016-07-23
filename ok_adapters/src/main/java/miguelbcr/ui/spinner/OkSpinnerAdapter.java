@@ -1,4 +1,4 @@
-package library.spinner;
+package miguelbcr.ui.spinner;
 
 import android.content.Context;
 import android.view.View;

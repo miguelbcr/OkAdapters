@@ -10,7 +10,7 @@ import app.spinner.SpinnerActivity;
 import app.stack_view.StackViewActivity;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import library.okadapters.R;
+import miguelbcr.okadapters.R;
 
 public class MainActivity extends AppCompatActivity {
 

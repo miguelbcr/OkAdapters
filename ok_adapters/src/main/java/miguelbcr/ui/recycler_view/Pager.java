@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 FuckBoilerplate
+ * Copyright 2016 miguelbcr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package library.recycler_view;
+package miguelbcr.ui.recycler_view;
 
 import android.os.Handler;
 import android.support.annotation.LayoutRes;

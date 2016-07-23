@@ -1,4 +1,4 @@
-package library.okadapters;
+package miguelbcr.okadapters;
 
 import org.junit.Test;
 

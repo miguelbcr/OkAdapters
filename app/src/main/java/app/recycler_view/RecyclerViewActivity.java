@@ -13,9 +13,9 @@ import java.util.List;
 import app.Item;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import library.okadapters.R;
-import library.recycler_view.OkRecyclerViewAdapter;
-import library.recycler_view.SwipeRemoveAction;
+import miguelbcr.okadapters.R;
+import miguelbcr.ui.recycler_view.OkRecyclerViewAdapter;
+import miguelbcr.ui.recycler_view.SwipeRemoveAction;
 
 public class RecyclerViewActivity extends AppCompatActivity {
     @Bind(R.id.rv_items) RecyclerView rv_items;

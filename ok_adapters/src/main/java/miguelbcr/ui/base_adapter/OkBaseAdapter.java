@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 FuckBoilerplate
+ * Copyright 2016 miguelbcr
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package library.base_adapter;
+package miguelbcr.ui.base_adapter;
 
 import android.view.View;
 import android.view.ViewGroup;

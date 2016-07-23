@@ -1,4 +1,4 @@
-package fuckboilerplate.okadapters;
+package app.okadapters;
 
 import org.junit.Test;
 
