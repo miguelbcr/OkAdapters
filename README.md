@@ -65,6 +65,8 @@ Now instantiate [OkRecyclerViewAdapter](https://github.com/FuckBoilerplate/OkAda
 ### RecyclerView pagination.
 
 `OkRecyclerViewAdapter` supports a pagination. In order to use this feature, you need to call `setPager` from the adapter woth the following arguments:
+
+
 1. A valid reference to the layout which will be used as the loading row when requesting successive items 
 2. The already loaded items (for handling config changes). 
 3. An implementation of the interface `LoaderPager`, which exposes the last visible item and request an instance of the interface `Call` for retrieving the data in an async way. 
