@@ -6,7 +6,7 @@ Add OkAdapter dependency to project level build.gradle.
 
 ```gradle
 dependencies {
-    compile 'com.github.miguelbcr:OkAdapters:0.1.3'
+    compile 'com.github.miguelbcr:OkAdapters:0.1.6'
 }
 ```
 
@@ -64,20 +64,32 @@ Now instantiate [OkRecyclerViewAdapter](https://github.com/FuckBoilerplate/OkAda
   
 ### RecyclerView pagination.
 
-`OkRecyclerViewAdapter` supports a reactive pagination. In order to use this feature, you need to call `setRxPager` from the adapter, supplying a valid reference to the layout which will be used as the loading row when requesting successive items. As long as an implementation of the interface `LoaderPager`, which exposes the last visible item and request an instance of the loader `observable` for retrieving the data. 
+`OkRecyclerViewAdapter` supports a pagination. In order to use this feature, you need to call `setPager` from the adapter woth the following arguments:
+1. A valid reference to the layout which will be used as the loading row when requesting successive items 
+2. The already loaded items (for handling config changes). 
+3. An implementation of the interface `LoaderPager`, which exposes the last visible item and request an instance of the interface `Call` for retrieving the data in an async way. 
 
 ```java
-adapter.setRxPager(R.layout.loading_pager, new RxPager.LoaderPager<YourModel>() {
-    @Override public Observable<List<YourModel>> onNextPage(YourModel lastItem) {
-        return getItemsObservable(lastItem);
-    }
-});
+adapter.setPager(R.layout.loading_pager, presenter.getUsersState(),
+    new Pager.LoaderPager<YourModel>() {
+      @Override public Pager.Call<YourModel> onNextPage(@Nullable YourModel lastItem) {
+        return new Pager.Call<YourModel>() {
+          @Override public void execute(Pager.Callback<YourModel> callback) {
+            callback.supply(models);
+          }
+        };
+      }
+    });    
 ```
 
-It is also possible to call `resetPager`, supplying an observable as the data source, in order to restart the pagination using another loader source that the one used for the pagination.
+It is also possible to call `resetPager` in order to restart the pagination, supplying instance of the interface `Call`.
   
 ```java
-adapter.resetPager(getFreshItemsObservable(null));
+adapter.resetPager(new Pager.Call<User>() {
+    @Override public void execute(Pager.Callback<User> callback) {
+      callback.supply(models);
+    }
+  });
 ```
   
 ## Spinner

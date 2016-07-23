@@ -64,7 +64,7 @@ public class RecyclerViewPagerActivity extends RxAppCompatActivity {
         adapter.setPager(R.layout.loading_pager, cachedItems, new Pager.LoaderPager<Item>() {
             @Override public Pager.Call<Item> onNextPage(@Nullable final Item lastItem) {
                 return new Pager.Call<Item>() {
-                    @Override public void retrieve(final Pager.Response<Item> response) {
+                    @Override public void execute(final Pager.Callback<Item> callback) {
                         getItems(lastItem)
                             .doOnNext(new Action1<List<Item>>() {
                                 @Override public void call(List<Item> items) {
@@ -74,7 +74,7 @@ public class RecyclerViewPagerActivity extends RxAppCompatActivity {
                             .compose(RxLifecycle.<List<Item>>bindActivity(lifecycle()))
                             .subscribe(new Action1<List<Item>>() {
                                 @Override public void call(List<Item> items) {
-                                    response.enqueue(items);
+                                    callback.supply(items);
                                 }
                             });
                     }
@@ -85,10 +85,10 @@ public class RecyclerViewPagerActivity extends RxAppCompatActivity {
         findViewById(R.id.bt_reset).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 adapter.resetPager(new Pager.Call<Item>() {
-                    @Override public void retrieve(final Pager.Response<Item> response) {
+                    @Override public void execute(final Pager.Callback<Item> callback) {
                         getItems(null).subscribe(new Action1<List<Item>>() {
                             @Override public void call(List<Item> items) {
-                                response.enqueue(items);
+                                callback.supply(items);
                             }
                         });
                     }

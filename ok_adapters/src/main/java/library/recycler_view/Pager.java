@@ -63,8 +63,8 @@ public class Pager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implemen
     private void showItems(Call<T> call, final boolean reset) {
         stillLoading = true;
 
-        call.retrieve(new Response<T>() {
-            @Override public void enqueue(final List<T> items) {
+        call.execute(new Callback<T>() {
+            @Override public void supply(final List<T> items) {
                 stillLoading = false;
                 new Handler().post(new Runnable() {
                     @Override public void run() {
@@ -97,11 +97,11 @@ public class Pager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implemen
     }
 
     public interface Call<T> {
-        void retrieve(Response<T> response);
+        void execute(Callback<T> callback);
     }
 
-    public interface Response<T> {
-        void enqueue(List<T> items);
+    public interface Callback<T> {
+        void supply(List<T> items);
     }
 
     public boolean isAllLoaded() {
