@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package miguelbcr.ui.base_adapter;
+package miguelbcr.ok_adapters.base_adapter;
 
 import android.view.View;
 import android.view.ViewGroup;

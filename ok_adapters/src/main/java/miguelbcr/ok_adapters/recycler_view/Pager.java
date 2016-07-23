@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package miguelbcr.ui.recycler_view;
+package miguelbcr.ok_adapters.recycler_view;
 
 import android.os.Handler;
 import android.support.annotation.LayoutRes;

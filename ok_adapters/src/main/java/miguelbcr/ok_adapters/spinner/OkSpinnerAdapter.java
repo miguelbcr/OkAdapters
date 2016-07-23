@@ -1,4 +1,4 @@
-package miguelbcr.ui.spinner;
+package miguelbcr.ok_adapters.spinner;
 
 import android.content.Context;
 import android.view.View;
