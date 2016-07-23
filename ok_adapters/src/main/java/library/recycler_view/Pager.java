@@ -20,22 +20,16 @@ import android.os.Handler;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.view.View;
-
 import java.util.List;
 
-import rx.Observable;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Func1;
-
-public class RxPager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implements OkRecyclerViewAdapter.LastItemListener {
+public class Pager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implements OkRecyclerViewAdapter.LastItemListener {
     @LayoutRes private final int idResourceLoading;
     private final OkRecyclerViewAdapter<T, V> adapter;
     private final LoaderPager<T> loaderPager;
     private boolean allLoaded;
     private boolean stillLoading;
 
-    public RxPager(@LayoutRes int idResourceLoading, List<T> initialLoad, LoaderPager<T> loaderPager,
+    public Pager(@LayoutRes int idResourceLoading, List<T> initialLoad, LoaderPager<T> loaderPager,
         OkRecyclerViewAdapter<T, V> adapter) {
         this.idResourceLoading = idResourceLoading;
         this.loaderPager = loaderPager;
@@ -62,22 +56,16 @@ public class RxPager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implem
     }
 
 
-    void reset(Observable<List<T>> oItems) {
-        showItems(oItems.doOnNext(new Action1<List<T>>() {
-            @Override public void call(List<T> items) {
-                allLoaded = items.isEmpty();
-            }
-        }), true);
+    void reset(Call<T> call) {
+        showItems(call, true);
     }
 
-    private void showItems(Observable<List<T>> oItems, final boolean reset) {
+    private void showItems(Call<T> call, final boolean reset) {
         stillLoading = true;
-        oItems.doOnCompleted(new Action0() {
-            @Override public void call() {
+
+        call.retrieve(new Response<T>() {
+            @Override public void enqueue(final List<T> items) {
                 stillLoading = false;
-            }
-        }).subscribe(new Action1<List<T>>() {
-            @Override public void call(final List<T> items) {
                 new Handler().post(new Runnable() {
                     @Override public void run() {
                         stillLoading = false;
@@ -86,11 +74,6 @@ public class RxPager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implem
                         else adapter.addAll(items);
                     }
                 });
-            }
-        }, new Action1<Throwable>() {
-            @Override public void call(Throwable throwable) {
-                stillLoading = false;
-                throwable.printStackTrace();
             }
         });
     }
@@ -101,15 +84,8 @@ public class RxPager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implem
             return;
         }
 
-        Observable<List<T>> oItems = loaderPager.onNextPage(item)
-                .map(new Func1<List<T>, List<T>>() {
-                    @Override public List<T> call(List<T> items) {
-                        allLoaded = items.isEmpty();
-                        return items;
-                    }
-                });
-
-        showItems(oItems, false);
+        Call<T> call = loaderPager.onNextPage(item);
+        showItems(call, false);
     }
 
     public boolean isStillLoading() {
@@ -117,7 +93,15 @@ public class RxPager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implem
     }
 
     public interface LoaderPager<T> {
-        Observable<List<T>> onNextPage(@Nullable T lastItem);
+        Call<T> onNextPage(@Nullable T lastItem);
+    }
+
+    public interface Call<T> {
+        void retrieve(Response<T> response);
+    }
+
+    public interface Response<T> {
+        void enqueue(List<T> items);
     }
 
     public boolean isAllLoaded() {

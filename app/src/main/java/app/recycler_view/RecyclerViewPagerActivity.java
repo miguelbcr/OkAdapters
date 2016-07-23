@@ -2,6 +2,7 @@ package app.recycler_view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,7 +21,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import library.okadapters.R;
 import library.recycler_view.OkRecyclerViewAdapter;
-import library.recycler_view.RxPager;
+import library.recycler_view.Pager;
 import library.recycler_view.SwipeRemoveAction;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -60,21 +61,38 @@ public class RecyclerViewPagerActivity extends RxAppCompatActivity {
             }
         });
 
-        adapter.setRxPager(R.layout.loading_pager, cachedItems, new RxPager.LoaderPager<Item>() {
-            @Override public Observable<List<Item>> onNextPage(Item lastItem) {
-                return getItems(lastItem)
-                    .doOnNext(new Action1<List<Item>>() {
-                        @Override public void call(List<Item> items) {
-                            cachedItems.addAll(items);
-                        }
-                    })
-                    .compose(RxLifecycle.<List<Item>>bindActivity(lifecycle()));
+        adapter.setPager(R.layout.loading_pager, cachedItems, new Pager.LoaderPager<Item>() {
+            @Override public Pager.Call<Item> onNextPage(@Nullable final Item lastItem) {
+                return new Pager.Call<Item>() {
+                    @Override public void retrieve(final Pager.Response<Item> response) {
+                        getItems(lastItem)
+                            .doOnNext(new Action1<List<Item>>() {
+                                @Override public void call(List<Item> items) {
+                                    cachedItems.addAll(items);
+                                }
+                            })
+                            .compose(RxLifecycle.<List<Item>>bindActivity(lifecycle()))
+                            .subscribe(new Action1<List<Item>>() {
+                                @Override public void call(List<Item> items) {
+                                    response.enqueue(items);
+                                }
+                            });
+                    }
+                };
             }
         });
 
         findViewById(R.id.bt_reset).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                adapter.resetPager(getItems(null));
+                adapter.resetPager(new Pager.Call<Item>() {
+                    @Override public void retrieve(final Pager.Response<Item> response) {
+                        getItems(null).subscribe(new Action1<List<Item>>() {
+                            @Override public void call(List<Item> items) {
+                                response.enqueue(items);
+                            }
+                        });
+                    }
+                });
             }
         });
 

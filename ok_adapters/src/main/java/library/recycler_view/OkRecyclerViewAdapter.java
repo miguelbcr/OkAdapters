@@ -22,11 +22,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import rx.Observable;
 
 /**
  * OkAdapter for RecyclerViews
@@ -36,13 +33,13 @@ import rx.Observable;
 public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAdapter.Binder<T>> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     protected List<T> items = new ArrayList<>();
     protected Listener<T, V> listener;
-    private RxPager<T, V> rxPager;
+    private Pager<T, V> pager;
     private final static int LOADING_VIEW_TYPE = 1, ITEM_VIEW_TYPE = 2;
     boolean removeMoreListener;
 
     @Override public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == LOADING_VIEW_TYPE) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(rxPager.getIdResourceLoading(), parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(pager.getIdResourceLoading(), parent, false);
             return new ViewHolderPagerLoading(view);
         }
 
@@ -54,7 +51,7 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
     @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder.getItemViewType() == LOADING_VIEW_TYPE) {
             if (!removeMoreListener) {
-                if (!rxPager.isStillLoading()) rxPager.lastItemReached();
+                if (!pager.isStillLoading()) pager.lastItemReached();
             }
             return;
         }
@@ -74,12 +71,12 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
     }
 
     @Override public int getItemViewType(int position) {
-        if (position == items.size() && rxPager != null && !rxPager.isAllLoaded()) return LOADING_VIEW_TYPE;
+        if (position == items.size() && pager != null && !pager.isAllLoaded()) return LOADING_VIEW_TYPE;
         return ITEM_VIEW_TYPE;
     }
 
     @Override public int getItemCount() {
-        return rxPager != null && !rxPager.isAllLoaded() ? items.size() + 1 : items.size();
+        return pager != null && !pager.isAllLoaded() ? items.size() + 1 : items.size();
     }
 
     public void setOnItemClickListener(Listener<T, V> listener) {
@@ -132,12 +129,12 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
         removeMoreListener = true;
     }
 
-    public void setRxPager(@LayoutRes int idResourceLoading, List<T> initialLoad, RxPager.LoaderPager<T> loaderPager) {
-        this.rxPager = new RxPager(idResourceLoading, initialLoad, loaderPager, this);
+    public void setPager(@LayoutRes int idResourceLoading, List<T> initialLoad, Pager.LoaderPager<T> loaderPager) {
+        this.pager = new Pager(idResourceLoading, initialLoad, loaderPager, this);
     }
 
-    public void resetPager(Observable<List<T>> oItems) {
-        if (rxPager != null) rxPager.reset(oItems);
+    public void resetPager(Pager.Call<T> call) {
+        if (pager != null) pager.reset(call);
     }
 
     public interface LastItemListener {
@@ -147,7 +144,7 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
     public void configureGridLayoutManagerForPagination(final GridLayoutManager gridLayoutManager) {
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override public int getSpanSize(int position) {
-                if (position == getItemCount() - 1 && !rxPager.isAllLoaded()) {
+                if (position == getItemCount() - 1 && !pager.isAllLoaded()) {
                     return gridLayoutManager.getSpanCount();
                 } else {
                     return 1;
