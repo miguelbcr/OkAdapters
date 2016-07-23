@@ -10,7 +10,7 @@ import app.Item;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import miguelbcr.okadapters.R;
-import miguelbcr.ui.spinner.OkSpinnerAdapter;
+import miguelbcr.ok_adapters.spinner.OkSpinnerAdapter;
 
 public class ItemSpinnerViewGroup extends FrameLayout implements OkSpinnerAdapter.Binder<Item>, OkSpinnerAdapter.BinderDropDown<Item> {
     @Bind(R.id.tv_value) TextView tv_value;

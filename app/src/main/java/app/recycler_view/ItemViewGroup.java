@@ -10,7 +10,7 @@ import app.Item;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import miguelbcr.okadapters.R;
-import miguelbcr.ui.recycler_view.OkRecyclerViewAdapter;
+import miguelbcr.ok_adapters.recycler_view.OkRecyclerViewAdapter;
 
 public class ItemViewGroup extends FrameLayout implements OkRecyclerViewAdapter.Binder<Item> {
 

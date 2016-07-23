@@ -14,7 +14,7 @@ import app.Item;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import miguelbcr.okadapters.R;
-import miguelbcr.ui.spinner.OkSpinnerAdapter;
+import miguelbcr.ok_adapters.spinner.OkSpinnerAdapter;
 
 public class SpinnerActivity extends AppCompatActivity {
     @Bind(R.id.spinner) Spinner spinner;

@@ -10,7 +10,7 @@ import java.util.List;
 import app.Item;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import miguelbcr.ui.base_adapter.OkBaseAdapter;
+import miguelbcr.ok_adapters.base_adapter.OkBaseAdapter;
 import miguelbcr.okadapters.R;
 
 public class StackViewActivity extends AppCompatActivity {

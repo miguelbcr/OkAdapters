@@ -14,8 +14,8 @@ import app.Item;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import miguelbcr.okadapters.R;
-import miguelbcr.ui.recycler_view.OkRecyclerViewAdapter;
-import miguelbcr.ui.recycler_view.SwipeRemoveAction;
+import miguelbcr.ok_adapters.recycler_view.OkRecyclerViewAdapter;
+import miguelbcr.ok_adapters.recycler_view.SwipeRemoveAction;
 
 public class RecyclerViewActivity extends AppCompatActivity {
     @Bind(R.id.rv_items) RecyclerView rv_items;

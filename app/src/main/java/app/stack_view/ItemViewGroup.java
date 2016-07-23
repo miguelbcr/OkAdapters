@@ -9,7 +9,7 @@ import android.widget.TextView;
 import app.Item;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import miguelbcr.ui.base_adapter.OkBaseAdapter;
+import miguelbcr.ok_adapters.base_adapter.OkBaseAdapter;
 import miguelbcr.okadapters.R;
 
 public class ItemViewGroup extends FrameLayout implements OkBaseAdapter.Binder<Item> {
