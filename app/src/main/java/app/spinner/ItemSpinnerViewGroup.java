@@ -9,8 +9,8 @@ import android.widget.TextView;
 import app.Item;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import library.okadapters.R;
-import library.spinner.OkSpinnerAdapter;
+import miguelbcr.okadapters.R;
+import miguelbcr.ui.spinner.OkSpinnerAdapter;
 
 public class ItemSpinnerViewGroup extends FrameLayout implements OkSpinnerAdapter.Binder<Item>, OkSpinnerAdapter.BinderDropDown<Item> {
     @Bind(R.id.tv_value) TextView tv_value;

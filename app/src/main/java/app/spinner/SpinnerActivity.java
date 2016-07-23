@@ -13,8 +13,8 @@ import java.util.List;
 import app.Item;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import library.okadapters.R;
-import library.spinner.OkSpinnerAdapter;
+import miguelbcr.okadapters.R;
+import miguelbcr.ui.spinner.OkSpinnerAdapter;
 
 public class SpinnerActivity extends AppCompatActivity {
     @Bind(R.id.spinner) Spinner spinner;

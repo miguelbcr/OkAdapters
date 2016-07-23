@@ -49,7 +49,7 @@ Create a class which extends from any Android `ViewGroup` and implements `OkRecy
  
 ```
  
-Now instantiate [OkRecyclerViewAdapter](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/recycler_view/OkRecyclerViewAdapter.java) using the previous `OkRecyclerViewAdapter.Binder` implementation class and use it as a normal `adapter`.
+Now instantiate [OkRecyclerViewAdapter](https://github.com/miguelbcr/OkAdapters/blob/master/miguelbcr/src/main/java/miguelbcr/recycler_view/OkRecyclerViewAdapter.java) using the previous `OkRecyclerViewAdapter.Binder` implementation class and use it as a normal `adapter`.
 
 ```java
  OkRecyclerViewAdapter<YourModel, YourModelViewGroup> adapter = new OkRecyclerViewAdapter<YourModel, YourModelViewGroup>() {
@@ -120,7 +120,7 @@ public class YourModelViewGroup extends FrameLayout implements OkSpinnerAdapter.
 }  
 ```
   
-  Now instantiate [OkSpinnerAdapter](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/spinner/OkSpinnerAdapter.java) using the previous `OkSpinnerAdapter.Binder` and `OkSpinnerAdapter.BinderDropDown` implementation class and use it as a normal `adapter`.
+  Now instantiate [OkSpinnerAdapter](https://github.com/miguelbcr/OkAdapters/blob/master/miguelbcr/src/main/java/miguelbcr/spinner/OkSpinnerAdapter.java) using the previous `OkSpinnerAdapter.Binder` and `OkSpinnerAdapter.BinderDropDown` implementation class and use it as a normal `adapter`.
 
 ```java 
     List<YourModel> items = getItems();
@@ -165,7 +165,7 @@ Create a class which extends from any Android `ViewGroup` and implements `OkBase
  
 ```
  
-Now instantiate [OkBaseAdapter](https://github.com/FuckBoilerplate/OkAdapters/blob/master/library/src/main/java/library/base_adapter/OkBaseAdapter.java) using the previous `OkBaseAdapter.Binder` implementation class and use it as a normal `adapter`.
+Now instantiate [OkBaseAdapter](https://github.com/miguelbcr/OkAdapters/blob/master/miguelbcr/src/main/java/miguelbcr/base_adapter/OkBaseAdapter.java) using the previous `OkBaseAdapter.Binder` implementation class and use it as a normal `adapter`.
 
 ```java
 OkBaseAdapter<Item, ItemViewGroup> adapter = new OkBaseAdapter<YourModel, YourModelViewGroup>() {
@@ -179,4 +179,4 @@ OkBaseAdapter<Item, ItemViewGroup> adapter = new OkBaseAdapter<YourModel, YourMo
 ```
   
   
-[Reference](https://github.com/FuckBoilerplate/OkAdapters/tree/master/app/src/main/java/app/stack_view) to a complete example.  
+[Reference](https://github.com/miguelbcr/OkAdapters/tree/master/app/src/main/java/app/stack_view) to a complete example.
