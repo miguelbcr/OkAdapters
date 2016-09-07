@@ -78,6 +78,10 @@ public class Pager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implemen
         });
     }
 
+    void setStillLoading(boolean stillLoading) {
+        this.stillLoading = stillLoading;
+    }
+
     private void nextPage(T item) {
         if (allLoaded) {
             adapter.removeMoreListener();
