@@ -137,7 +137,7 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
         if (pager != null) pager.reset(call);
     }
 
-    void setStillLoadingPager(boolean stillLoading) {
+    public void setStillLoadingPager(boolean stillLoading) {
         this.pager.setStillLoading(stillLoading);
     }
 
