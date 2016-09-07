@@ -78,7 +78,7 @@ public class Pager<T, V extends View & OkRecyclerViewAdapter.Binder<T>> implemen
         });
     }
 
-    public void setStillLoading(boolean stillLoading) {
+    void setStillLoading(boolean stillLoading) {
         this.stillLoading = stillLoading;
     }
 
