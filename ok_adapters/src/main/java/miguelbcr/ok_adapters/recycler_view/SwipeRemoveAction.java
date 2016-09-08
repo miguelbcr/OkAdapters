@@ -89,7 +89,11 @@ public class SwipeRemoveAction<T> {
                 .setCallback(new Snackbar.Callback() {
                     @Override public void onDismissed(Snackbar snackbar, int event) {
                         if (redrawOnRemovedItem) adapter.notifyDataSetChanged();
-                        if (onItemRemoved != null && event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) onItemRemoved.onRemoved(itemRemoved);
+                        if (onItemRemoved != null
+                                && (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT
+                                || event == Snackbar.Callback.DISMISS_EVENT_CONSECUTIVE)) {
+                            onItemRemoved.onRemoved(itemRemoved);
+                        }
                     }
                 })
                 .setAction(titleAction, new View.OnClickListener() {
