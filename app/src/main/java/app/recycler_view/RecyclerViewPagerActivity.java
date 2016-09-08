@@ -57,7 +57,15 @@ public class RecyclerViewPagerActivity extends RxAppCompatActivity {
         adapter.setOnItemClickListener(new OkRecyclerViewAdapter.Listener<Item, ItemViewGroup>() {
             @Override public void onClickItem(Item item, ItemViewGroup itemViewGroup, int position) {
                 startActivity(new Intent(RecyclerViewPagerActivity.this, DummyActivity.class));
-                Toast.makeText(RecyclerViewPagerActivity.this, item.toString() + " " + "  Pos: " + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecyclerViewPagerActivity.this, item.toString() + "   Pos: " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        adapter.setOnItemLongClickListener(new OkRecyclerViewAdapter.ListenerLongClick<Item, ItemViewGroup>() {
+            @Override
+            public boolean onLongClickItem(Item item, ItemViewGroup itemViewGroup, int position) {
+                Toast.makeText(RecyclerViewPagerActivity.this, item.toString() + "   Pos: " + position + " (Long click)", Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
 

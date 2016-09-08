@@ -32,7 +32,8 @@ import java.util.List;
  */
 public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAdapter.Binder<T>> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     protected List<T> items = new ArrayList<>();
-    protected Listener<T, V> listener;
+    private Listener<T, V> listener;
+    private ListenerLongClick<T, V> listenerLongClick;
     private Pager<T, V> pager;
     private final static int LOADING_VIEW_TYPE = 1, ITEM_VIEW_TYPE = 2;
     boolean removeMoreListener;
@@ -63,11 +64,22 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
         final V view = viewHolder.getView();
         view.bind(item, position, getItemCount());
 
-        if (listener != null) view.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                listener.onClickItem(item, view, viewHolder.getAdapterPosition());
-            }
-        });
+        if (listener != null) {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onClickItem(item, view, viewHolder.getAdapterPosition());
+                }
+            });
+        }
+
+        if (listenerLongClick != null) {
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override public boolean onLongClick(View v) {
+                    return listenerLongClick.onLongClickItem(item, view, viewHolder.getAdapterPosition());
+                }
+            });
+        }
     }
 
     @Override public int getItemViewType(int position) {
@@ -81,6 +93,10 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
 
     public void setOnItemClickListener(Listener<T, V> listener) {
         this.listener = listener;
+    }
+
+    public void setOnItemLongClickListener(ListenerLongClick<T, V> listener) {
+        this.listenerLongClick = listener;
     }
 
     public void add(T item) {
@@ -109,6 +125,13 @@ public abstract class OkRecyclerViewAdapter<T, V extends View & OkRecyclerViewAd
 
     public interface Listener<T, V> {
         void onClickItem(T t, V v, int position);
+    }
+
+    public interface ListenerLongClick<T, V> {
+        /**
+         * @return true if the callback consumed the long click, false otherwise.
+         */
+        boolean onLongClickItem(T t, V v, int position);
     }
 
     public interface Binder<T> {
