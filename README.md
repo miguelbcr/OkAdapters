@@ -64,7 +64,7 @@ Now instantiate [OkRecyclerViewAdapter](https://github.com/miguelbcr/OkAdapters/
   
 ### RecyclerView pagination.
 
-`OkRecyclerViewAdapter` supports a pagination. In order to use this feature, you need to call `setPager` from the adapter woth the following arguments:
+`OkRecyclerViewAdapter` supports a pagination. In order to use this feature, you need to call `setPager` from the adapter with the following arguments:
 
 
 1. A valid reference to the layout which will be used as the loading row when requesting successive items 
@@ -84,7 +84,7 @@ adapter.setPager(R.layout.loading_pager, presenter.getUsersState(),
     });    
 ```
 
-It is also possible to call `resetPager` in order to restart the pagination, supplying instance of the interface `Call`.
+It is also possible call to `resetPager` in order to restart the pagination, supplying instance of the interface `Call`.
   
 ```java
 adapter.resetPager(new Pager.Call<User>() {
